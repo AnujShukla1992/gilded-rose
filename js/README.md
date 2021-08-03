@@ -2,10 +2,10 @@
 
 ## Add new feature to sell new category of items
 New item category: "Conjured"
-"Conjured" items degrade in Quality twice as fast as normal items 
-    Condition: 
+- "Conjured" items degrade in Quality twice as fast as normal items 
+    - Condition: 
         sell_in -1, qualtiy - 2
-        sell_in <= 0, qualtiy - 2(2)
+        sell_in <= 0, qualtiy - 2 * 2
 
 # Existing state
   Item Categories:
