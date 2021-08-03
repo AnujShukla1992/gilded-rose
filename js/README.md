@@ -34,8 +34,8 @@ New item category: "Conjured"
     - Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less and drops to 0 after the concert 
         Condition: 
             sell_in: [6, 10] , quality = quality + 2
-            sell_in: [0, 5] , quality = quality + 3 (including the day of the concert)
-            sell_in:  < 0 , quality = 0
+            sell_in: (0, 5] , quality = quality + 3 (including the day of the concert)
+            sell_in:  <=0 0 , quality = 0
 - Sulfuras 
     - never has to be sold or decreases in Quality
     - Quality is 80 and it never alters.
