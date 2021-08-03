@@ -70,6 +70,13 @@ describe("Gilded Rose", function() {
     expect(items[0].sell_in).toEqual(9);
   });
 
+  it("should have item quality not less than 0 and sell_in reduced by 1", function() {
+    items = [ new Item("foo", 10, 0) ];
+    update_quality();
+    expect(items[0].quality).toEqual(0);
+    expect(items[0].sell_in).toEqual(9);
+  });
+
   it("should have item quality and sell_in reduced by 1", function() {
     items = [ new Item("foo", 0, 30) ];
     update_quality();
@@ -77,6 +84,26 @@ describe("Gilded Rose", function() {
     expect(items[0].sell_in).toEqual(-1);
   });
 
+
+/* 
+  ITEM: Conjured     
+ "Conjured" items degrade in Quality twice as fast as normal items
+  change in qualtiy = 2X
+*/
+
+it("should have Conjured item quality decrease by 2 when sell_in is equal to 10", function() {
+  items = [ new Item("Conjured", 10, 30) ];
+  update_quality();
+  expect(items[0].quality).toEqual(28);
+  expect(items[0].sell_in).toEqual(9);
+});
+
+it("should have Conjured item quality decrease to 0 when sell_in is equal to 10", function() {
+  items = [ new Item("Conjured", 10, 1) ];
+  update_quality();
+  expect(items[0].quality).toEqual(0);
+  expect(items[0].sell_in).toEqual(9);
+});
 
 /* 
   ITEM: Aged Brie     
@@ -110,6 +137,13 @@ it("should not have Aged Brie item quality increase by 1 when when qualtiy is 50
   update_quality();
   expect(items[0].quality).toEqual(50);
   expect(items[0].sell_in).toEqual(-2);
+});
+
+it("should have Aged Brie quality not less than 0 and sell_in reduced by 1", function() {
+  items = [ new Item("foo", 10, 0) ];
+  update_quality();
+  expect(items[0].quality).toEqual(0);
+  expect(items[0].sell_in).toEqual(9);
 });
 
   
@@ -185,6 +219,12 @@ it("should not have Aged Brie item quality increase by 1 when when qualtiy is 50
     expect(items[0].sell_in).toEqual(0);
   });
 
+  it("should have Backstage passes quality not less than 0 and sell_in reduced by 1", function() {
+    items = [ new Item("foo", 10, 0) ];
+    update_quality();
+    expect(items[0].quality).toEqual(0);
+    expect(items[0].sell_in).toEqual(9);
+  });
 
   // Item: Sulfuras
 
