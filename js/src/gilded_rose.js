@@ -4,61 +4,64 @@ function Item(name, sell_in, quality) {
   this.quality = quality;
 }
 
-var items = []
+var items = [];
+
+function updateAgedBrie(item) {
+  if (item.quality < 50) {
+    item.quality = item.quality + 1;
+  }
+  if (item.sell_in < 0) {
+    if (item.quality < 50) {
+      item.quality = item.quality + 1;
+    }
+  }
+}
+
+// TODO: Need to cleanup the function
+function updateBackstagePasses(item) {
+  if (item.quality < 50) {
+    item.quality = item.quality + 1;
+    if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+      if (item.sell_in < 11) {
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
+        }
+      }
+      if (item.sell_in < 6) {
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
+        }
+      }
+    }
+  }
+}
 
 function update_quality() {
-  // Iterating the list
   for (var i = 0; i < items.length; i++) {
-    if (items[i].name != 'Aged Brie' && items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-      if (items[i].quality > 0) {
-        if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-          items[i].quality = items[i].quality - 1
-        }
-      }
+    // Sanitize the Items ??
 
-    // Aged Brie & Backstage passes logic
-    } else {
-      if (items[i].quality < 50) {
-        items[i].quality = items[i].quality + 1
-        if (items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].sell_in < 11) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1
-            }
-          }
-          if (items[i].sell_in < 6) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1
-            }
-          }
+    // Updating Quality
+    switch (items[i].name) {
+      case "Sulfuras, Hand of Ragnaros":
+        break;
+      case "Aged Brie":
+        updateAgedBrie(items[i]);
+        items[i].sell_in = items[i].sell_in - 1;
+        break;
+      case "Backstage passes to a TAFKAL80ETC concert":
+        updateBackstagePasses(items[i]);
+        items[i].sell_in = items[i].sell_in - 1;
+        if (items[i].sell_in < 0) {
+          items[i].quality = 0;
         }
-      }
-    }
-
-    // Reducing the item sell_in
-    if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-      items[i].sell_in = items[i].sell_in - 1;
-    }
-
-    // Condition - expired items
-    if (items[i].sell_in < 0) {
-      if (items[i].name != 'Aged Brie') {
-        if (items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].quality > 0) {
-            if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-              items[i].quality = items[i].quality - 1
-            }
-          }
-        } else {
-          // Condition for Backstage passes
-          items[i].quality = items[i].quality - items[i].quality
+        break;
+      default:
+        // TODO: Default code goes here
+        if (items[i].quality > 0) {
+          items[i].quality = items[i].quality - 1;
         }
-      } else {
-      // Condition for Aged Brie  
-        if (items[i].quality < 50) {
-          items[i].quality = items[i].quality + 1
-        }
-      }
+        items[i].sell_in = items[i].sell_in - 1;
+        break;
     }
   }
 }
