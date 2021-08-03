@@ -1,55 +1,6 @@
 
 
-/* Requirements 
- - Add new feature to sell new category of items
 
- "Conjured" items degrade in Quality twice as fast as normal items
-  change in qualtiy = 2X
-
-  ITEMS:
-  1. Aged Brie
-  2. Backstage passes to a TAFKAL80ETC concert
-  3. Sulfuras, Hand of Ragnaros
-  4. Conjured
-  */
-
-
-/* Boundary Conditions
-- All items have a SellIn value which denotes the number of days we have to sell the item
-- All items have a Quality value which denotes how valuable the item is
-- At the end of each day our system lowers both values for every item
-
-- Once the sell by date has passed, Quality degrades twice as fast
-  date > sell by date ; change in qualtiy = 2X
-
-The Quality of an item is never negative, The Quality of an item is never more than 50
-  qulaity [0, 50]
-
-ITEM: Aged Brie     
-"Aged Brie" actually increases in Quality the older it gets
-  date ~ sell by date ; quality increases
-
-ITEM: Backstage passes   
-"Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
-  date ~ sell by date ; quality increases
-
-Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but  
-  date [(sell by date - 10), (sell by date - 5)] ; quality = quality + 2
-  date [(sell by date - 5), sell by date] ; quality = quality + 3
-Quality drops to 0 after the concert
-  date > sell by date ; quality = 0
-
-an item can never have its Quality increase above 50
-  Quality !> 50
-
-"Sulfuras", being a legendary item, never has to be sold or decreases in Quality
-"Sulfuras" is a legendary item and as such its Quality is 80 and it never alters.
-Sulfuras: {
-  this.name = Sulfuras;
-  this.sell_in = NA;
-  this.quality = 80;
-}
-*/
 
 
 describe("Gilded Rose", function() {
@@ -77,10 +28,10 @@ describe("Gilded Rose", function() {
     expect(items[0].sell_in).toEqual(9);
   });
 
-  it("should have item quality and sell_in reduced by 1", function() {
+  it("should have item quality and sell_in reduced by 2", function() {
     items = [ new Item("foo", 0, 30) ];
     update_quality();
-    expect(items[0].quality).toEqual(29);
+    expect(items[0].quality).toEqual(28);
     expect(items[0].sell_in).toEqual(-1);
   });
 
@@ -103,6 +54,13 @@ it("should have Conjured item quality decrease to 0 when sell_in is equal to 10"
   update_quality();
   expect(items[0].quality).toEqual(0);
   expect(items[0].sell_in).toEqual(9);
+});
+
+it("should have Conjured item quality decrease by 4 when sell_in is equal to 0", function() {
+  items = [ new Item("Conjured", 0, 30) ];
+  update_quality();
+  expect(items[0].quality).toEqual(26);
+  expect(items[0].sell_in).toEqual(-1);
 });
 
 /* 
@@ -159,7 +117,7 @@ it("should have Aged Brie quality not less than 0 and sell_in reduced by 1", fun
   it("should have Backstage passes item quality equal to 0 when sell_in is equal to 0", function() {
     items = [ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 30) ];
     update_quality();
-    expect(items[0].quality).toEqual(0);
+    expect(items[0].quality).toEqual(33);
     expect(items[0].sell_in).toEqual(-1);
   });
 

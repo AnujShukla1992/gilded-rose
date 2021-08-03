@@ -6,7 +6,7 @@ function Item(name, sell_in, quality) {
 
 const QUALITY_MAX = 50;
 
-const ITEM_LIST = {
+const ITEM_CATEGORIES = {
   SULFURAS: "Sulfuras, Hand of Ragnaros",
   BRIE: "Aged Brie",
   BACKSTAGE_PASSES: "Backstage passes to a TAFKAL80ETC concert",
@@ -21,11 +21,11 @@ const updateAgedBrieQuality = (item) =>
     : (item.quality = Math.min(item.quality + 1, QUALITY_MAX));
 
 const updateBackstagePasses = (item) => {
-  // reducing the seel_in beforehand to avoid repetition
+  // reducing the sell_in beforehand to avoid redundancy
   item.sell_in = item.sell_in - 1;
 
   switch (true) {
-    case item.sell_in < 0:
+    case item.sell_in < -1:
       item.quality = 0;
       break;
     case item.sell_in < 5:
@@ -43,24 +43,32 @@ const updateBackstagePasses = (item) => {
 };
 
 const reduceQualityAndSellIn = (item, reduceQualityBy) => {
-  item.quality = Math.max(Math.min(item.quality - reduceQualityBy, 50), 0);
   item.sell_in = item.sell_in - 1;
+  item.quality =
+    item.sell_in < 0
+      ? Math.max(Math.min(item.quality - reduceQualityBy * 2, 50), 0)
+      : Math.max(Math.min(item.quality - reduceQualityBy, 50), 0);
   return item;
 };
 
 function update_quality() {
+  // iterating through the list of items
   for (var i = 0; i < items.length; i++) {
+
+    // switching to correct item category
     switch (items[i].name) {
-      case ITEM_LIST.SULFURAS:
+      case ITEM_CATEGORIES.SULFURAS:
+        // no change in case of Sulfuras
         break;
-      case ITEM_LIST.BRIE:
+      case ITEM_CATEGORIES.BRIE:
         items[i].quality = updateAgedBrieQuality(items[i]);
         items[i].sell_in = items[i].sell_in - 1;
         break;
-      case ITEM_LIST.BACKSTAGE_PASSES:
+      case ITEM_CATEGORIES.BACKSTAGE_PASSES:
         items[i] = updateBackstagePasses(items[i]);
         break;
-      case ITEM_LIST.CONJURED:
+      case ITEM_CATEGORIES.CONJURED:
+        // Conjured item category has 2X reduction in quality
         items[i] = reduceQualityAndSellIn(items[i], 2);
         break;
       default:
