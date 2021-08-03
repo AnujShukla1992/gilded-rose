@@ -63,10 +63,18 @@ describe("Gilded Rose", function() {
     expect(typeof(items[0].quality)).toEqual("number");
   });
 
-  it("should have item quality not more than 50", function() {
-    items = [ new Item("foo", 0, 50) ];
+  it("should have item quality not more than 50 and sell_in reduced by 1", function() {
+    items = [ new Item("foo", 10, 60) ];
     update_quality();
-    expect(items[0].quality <= 50).toBeTruthy();
+    expect(items[0].quality).toEqual(50);
+    expect(items[0].sell_in).toEqual(9);
+  });
+
+  it("should have item quality and sell_in reduced by 1", function() {
+    items = [ new Item("foo", 0, 30) ];
+    update_quality();
+    expect(items[0].quality).toEqual(29);
+    expect(items[0].sell_in).toEqual(-1);
   });
 
 
