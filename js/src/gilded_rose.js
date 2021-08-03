@@ -28,7 +28,7 @@ const updateBackstagePasses = (item) => {
   item.sell_in = item.sell_in - 1;
 
   switch (true) {
-    case item.sell_in < -1:
+    case item.sell_in < 0:
       item.quality = 0;
       break;
     case item.sell_in < 5:
