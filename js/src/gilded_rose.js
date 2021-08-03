@@ -1,11 +1,14 @@
+// Item class: DO NOT CHANGE!
 function Item(name, sell_in, quality) {
   this.name = name;
   this.sell_in = sell_in;
   this.quality = quality;
 }
 
+// Defining maximum value for Quality for the items
 const QUALITY_MAX = 50;
 
+// Upfront Declaration of item categories
 const ITEM_CATEGORIES = {
   SULFURAS: "Sulfuras, Hand of Ragnaros",
   BRIE: "Aged Brie",

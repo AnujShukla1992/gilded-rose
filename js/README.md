@@ -4,8 +4,8 @@
 New item category: "Conjured"
 - "Conjured" items degrade in Quality twice as fast as normal items 
     - Condition: 
-        sell_in -1, qualtiy - 2
-        sell_in <= 0, qualtiy - 2 * 2
+        sell_in -1, quality - 2
+        sell_in <= 0, quality - 2 * 2
 
 # Existing state
   Item Categories:
@@ -19,7 +19,7 @@ New item category: "Conjured"
 - At the end of each day our system lowers both values for every item
 
 - Once the sell by date has passed, Quality degrades twice as fast
-        Condition: sell_in <= 0 , qualtiy - 2x
+        Condition: sell_in <= 0 , quality - 2x
 
 - The Quality of an item is never negative, The Quality of an item is never more than 50
         Condition: qulaity [0, 50]
